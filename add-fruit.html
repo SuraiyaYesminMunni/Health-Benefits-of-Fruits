@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Fruit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html">Healthy Fruits<span>.</span></a>
+    </div>
+    <ul class="nav-items">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="healthbenefit.html">Health Benefits</a></li>
+      <li><a href="bmi.html">BMI</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="add-fruit.html">Add Fruit</a></li> <!-- Link to Add Fruit Page -->
+    </ul>
+  </nav>
+
+  <div class="add-fruit-section">
+    <h1>Add New Fruit</h1>
+    <form class="add-fruit-form">
+      <label for="fruit-name">Fruit Name</label>
+      <input type="text" id="fruit-name" placeholder="Enter fruit name" required />
+
+      <label for="fruit-description">Description</label>
+      <textarea id="fruit-description" placeholder="Enter fruit description" required></textarea>
+
+      <label for="fruit-image">Image URL</label>
+      <input type="text" id="fruit-image" placeholder="Enter image URL" required />
+
+      <button type="submit">Add Fruit</button>
+    </form>
+  </div>
+
+  <h2>All Fruits</h2>
+  <div id="fruits-container" class="fruits-container">
+    <!-- Fruits will be dynamically added here -->
+  </div>
+
+  <!-- Update Fruit Popup -->
+  <div id="update-popup" class="popup">
+    <div class="popup-content">
+      <h3>Update Fruit</h3>
+      <form id="update-form">
+        <label for="update-name">Fruit Name</label>
+        <input type="text" id="update-name" required />
+
+        <label for="update-description">Description</label>
+        <textarea id="update-description" required></textarea>
+
+        <label for="update-image">Image URL</label>
+        <input type="text" id="update-image" required />
+
+        <button type="submit">Update Fruit</button>
+        <button type="button" id="close-popup">Close</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Handle form submission to add a fruit
+    document.querySelector('.add-fruit-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const name = document.getElementById('fruit-name').value;
+      const description = document.getElementById('fruit-description').value;
+      const image = document.getElementById('fruit-image').value;
+
+      // Send the data to the server
+      fetch('http://localhost:5000/api/fruits', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, description, image })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Fruit added successfully!');
+        document.querySelector('.add-fruit-form').reset(); // Clear form
+        fetchFruits(); // Fetch updated fruits list
+      })
+      .catch(err => {
+        console.error('Error adding fruit:', err);
+      });
+    });
+
+    // Fetch all fruits and display them
+    function fetchFruits() {
+      fetch('http://localhost:5000/api/fruits')
+        .then(response => response.json())
+        .then(fruits => {
+          const fruitsContainer = document.getElementById('fruits-container');
+          fruitsContainer.innerHTML = ''; // Clear previous fruits
+
+          fruits.forEach(fruit => {
+            const fruitDiv = document.createElement('div');
+            fruitDiv.classList.add('fruit-card');
+
+            fruitDiv.innerHTML = `
+              <img src="${fruit.image}" alt="${fruit.name}" class="fruit-img"/>
+              <div class="fruit-details">
+                <h2>${fruit.name}</h2>
+                <p>${fruit.description}</p>
+                <button onclick="openUpdatePopup('${fruit._id}', '${fruit.name}', '${fruit.description}', '${fruit.image}')">Update</button>
+                <button onclick="deleteFruit('${fruit._id}')">Delete</button>
+              </div>
+            `;
+            fruitsContainer.appendChild(fruitDiv);
+          });
+        })
+        .catch(err => console.error('Error fetching fruits:', err));
+    }
+
+    // Open the update popup with pre-filled data
+    function openUpdatePopup(id, name, description, image) {
+      document.getElementById('update-name').value = name;
+      document.getElementById('update-description').value = description;
+      document.getElementById('update-image').value = image;
+      document.getElementById('update-form').setAttribute('data-id', id);
+      document.getElementById('update-popup').style.display = 'block';
+    }
+
+    // Handle the update form submission
+    document.getElementById('update-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const id = this.getAttribute('data-id');
+      const name = document.getElementById('update-name').value;
+      const description = document.getElementById('update-description').value;
+      const image = document.getElementById('update-image').value;
+
+      // Send the updated data to the server
+      fetch(`http://localhost:5000/api/fruits/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, description, image })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Fruit updated successfully!');
+        fetchFruits(); // Fetch updated fruits list
+        document.getElementById('update-popup').style.display = 'none'; // Close the popup
+      })
+      .catch(err => {
+        console.error('Error updating fruit:', err);
+      });
+    });
+
+    // Close the update popup
+    document.getElementById('close-popup').addEventListener('click', function() {
+      document.getElementById('update-popup').style.display = 'none';
+    });
+
+    // Delete a fruit
+    function deleteFruit(id) {
+      fetch(`http://localhost:5000/api/fruits/${id}`, {
+        method: 'DELETE'
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Fruit deleted successfully!');
+        fetchFruits(); // Fetch updated fruits list
+      })
+      .catch(err => {
+        console.error('Error deleting fruit:', err);
+      });
+    }
+
+    // Initial fetch of fruits when the page loads
+    fetchFruits();
+  </script>
+
+  <style>
+    /* Layout for the fruits container */
+    .fruits-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .fruit-card {
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .fruit-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .fruit-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .fruit-details {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .fruit-details h2 {
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+    }
+
+    .fruit-details p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    .fruit-details button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 5px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .fruit-details button:hover {
+      background-color: #45a049;
+    }
+
+    /* Popup Styling */
+   /* Popup Styling */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure the popup is on top of other content */
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Add some shadow for better visibility */
+}
+
+.popup button {
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.popup button:hover {
+  background-color: #45a049;
+}
+
+  </style>
+</body>
+</html>

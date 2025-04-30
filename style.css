@@ -1,0 +1,412 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: #f4f4f9;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+h1, h2, h3, p {
+    margin: 0;
+}
+
+button {
+    background-color: #FF6F61;
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #ff4c3b;
+}
+
+/* Navbar - Centered Links */
+.navbar {
+    display: flex;
+    justify-content: center; /* Center the navbar links */
+    padding: 20px;
+    background-color: #2f4f4f;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+.navbar:hover {
+    background-color: #3e6d6b;
+}
+
+.nav-items {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-items li {
+    font-size: 18px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.nav-items a {
+    color: white;
+    text-transform: uppercase;
+}
+
+.nav-items a:hover {
+    color: #ff6f61;
+}
+
+.nav-items li:hover {
+    transform: scale(1.1);
+}
+
+
+
+
+/* Hero Section */
+#hero {
+    position: relative;
+    text-align: center;
+    padding: 100px 20px;
+    color: white;
+    animation: fadeIn 1.5s ease-out;
+    overflow: hidden; /* To ensure no part of the image overflows */
+}
+
+/* Hero Image (Ensure it's fully displayed and doesn't use background) */
+/* Shared hero image styles */
+/* Shared hero image styles */
+.hero-img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0;
+    animation: fadeInImage 8s ease-in-out infinite;
+}
+
+
+/* Delay classes for staggered animation */
+.delay-1 {
+    animation-delay: 0s;
+}
+.delay-2 {
+    animation-delay: 2.5s;
+}
+.delay-3 {
+    animation-delay: 5s;
+}
+
+/* Fade in and out keyframes */
+@keyframes fadeInImage {
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 1;
+    }
+    85% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+
+
+
+/* Hero Text Styling */
+#hero .hero-content {
+    position: relative;
+    z-index: 1; /* Ensure the text stays above the image */
+    padding: 40px;
+}
+
+#hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+#hero p {
+    font-size: 22px;
+    margin-bottom: 40px;
+}
+
+#hero .button .btn a {
+    padding: 15px 30px;
+    background-color: #ff6f61;
+    color: white;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+#hero .button .btn a:hover {
+    background-color: #ff4c3b;
+}
+
+/* Health Benefits Section */
+.healthbenefit {
+    padding: 60px 20px;
+    background: #ff6f61;
+    text-align: center;
+}
+
+.healthbenefit h2 {
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.healthbenefit p {
+    font-size: 18px;
+    margin-bottom: 40px;
+    color: #666;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    justify-content: center;
+}
+
+.benefit-item {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.benefit-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-item h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.benefit-item p {
+    font-size: 16px;
+    color: #555;
+}
+.bmi-section {
+    max-width: 600px;
+    margin: 100px auto;
+    padding: 30px;
+    background: #f4f4f4;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .bmi-section input {
+    width: 90%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  .bmi-section button {
+    padding: 12px 24px;
+    font-size: 18px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .bmi-section button:hover {
+    background-color: #ff4c3b;
+  }
+  
+  .bmi-result {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .bmi-chart {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+  }
+  
+  .bmi-chart th, .bmi-chart td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    font-size: 16px;
+  }
+  
+  .bmi-chart th {
+    background-color: #ff6f61;
+    color: white;
+  }
+  
+  .bmi-chart tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+
+/* Featured Fruits Section */
+.featured-fruits {
+    padding: 80px 20px;
+    background: #ff6f61;
+    color: white;
+    text-align: center;
+}
+
+.featured-fruits .sub-section-title p {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: white;
+    font-weight: bold;
+}
+
+.fruits {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Updated to 5 fruits in a row */
+    gap: 30px;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.fruit {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fruit:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.fruit-img {
+    max-height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.fruit-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image fills the container and doesn't stretch */
+}
+
+.fruit h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #ff6f61;
+}
+
+.fruit p {
+    font-size: 16px;
+    color: #555;
+}
+
+
+/* Contact Section */
+.contact-section {
+    padding: 60px 20px;
+    background: #f9f9f9;
+    text-align: center;
+}
+
+.contact-section h1 {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.contact-form {
+    display: block;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.input-area, .message-area {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.input-area input, .message-area textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.input-area label, .message-area label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.message-area textarea {
+    height: 150px;
+}
+
+/* Footer Section */
+#footer {
+    background-color: #333;
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+#footer .footer-wrap {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#footer a {
+    color: white;
+    font-size: 16px;
+    margin: 0 15px;
+}
+
+#footer a:hover {
+    color: #ff6f61;
+}
+
+footer {
+    font-size: 14px;
+    margin-top: 30px;
+}

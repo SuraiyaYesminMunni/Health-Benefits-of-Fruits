@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Messages</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html">Healthy Fruits<span>.</span></a>
+    </div>
+    <ul class="nav-items">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="healthbenefit.html">Health Benefits</a></li>
+      <li><a href="bmi.html">BMI</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="view-messages.html">View Messages</a></li> <!-- Link to View Messages Page -->
+    </ul>
+  </nav>
+
+  <div class="messages-section">
+    <h1>Submitted Contact Messages</h1>
+    <div id="messages-container">
+      <!-- Messages will be dynamically added here -->
+    </div>
+  </div>
+
+  <script>
+    // Fetch and display all contact messages from the backend
+    fetch('http://localhost:5000/api/contact')
+      .then(response => response.json())
+      .then(messages => {
+        const messagesContainer = document.getElementById('messages-container');
+        messagesContainer.innerHTML = ''; // Clear previous messages
+
+        messages.forEach(message => {
+          const messageDiv = document.createElement('div');
+          messageDiv.classList.add('message');
+          
+          messageDiv.innerHTML = `
+            <div class="message-info">
+              <strong>${message.firstName} ${message.lastName}</strong> (${message.email})
+            </div>
+            <div class="message-text">
+              <p>${message.message}</p>
+            </div>
+          `;
+          
+          messagesContainer.appendChild(messageDiv);
+        });
+      })
+      .catch(err => console.error('Error fetching messages:', err));
+  </script>
+</body>
+</html>

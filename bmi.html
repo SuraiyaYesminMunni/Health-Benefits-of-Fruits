@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BMI Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">Healthy Fruits<span>.</span></a>
+        </div>
+        <ul class="nav-items">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="healthbenefit.html">Health Benefits</a></li>
+            <li><a href="bmi.html">BMI</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+  <div class="bmi-section">
+    <h1>BMI Calculator</h1>
+    <input type="number" id="weight" placeholder="Enter weight (kg)" />
+    <input type="number" id="height" placeholder="Enter height (feet)" />
+    <button onclick="calculateBMI()">Calculate</button>
+    <div class="bmi-result" id="result"></div>
+
+    <h2>BMI Classification Chart</h2>
+    <table class="bmi-chart">
+      <tr><th>BMI Range</th><th>Category</th></tr>
+      <tr><td>Below 18.5</td><td>Underweight</td></tr>
+      <tr><td>18.5 – 24.9</td><td>Normal weight</td></tr>
+      <tr><td>25 – 29.9</td><td>Overweight</td></tr>
+      <tr><td>30 and above</td><td>Obese</td></tr>
+    </table>
+  </div>
+
+  <script>
+    function calculateBMI() {
+      const weight = parseFloat(document.getElementById('weight').value);
+      const heightFeet = parseFloat(document.getElementById('height').value);
+      const height = heightFeet * 0.3048; // convert feet to meters
+      const result = document.getElementById('result');
+
+      if (!weight || !height) {
+        result.textContent = "Please enter valid numbers for weight and height.";
+        return;
+      }
+
+      const bmi = (weight / (height * height)).toFixed(2);
+
+      let message = `Your BMI is ${bmi}. `;
+
+      if (bmi < 18.5) {
+        message += "You are underweight.";
+      } else if (bmi >= 18.5 && bmi < 24.9) {
+        message += "You have a normal weight.";
+      } else if (bmi >= 25 && bmi < 29.9) {
+        message += "You are overweight.";
+      } else {
+        message += "You are obese.";
+      }
+
+      result.textContent = message;
+    }
+  </script>
+</body>
+</html>

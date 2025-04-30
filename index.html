@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health benefits of fruits</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+  <!-- Home Section -->
+  <div class="home">
+    <nav class="navbar">
+        <div class="logo">
+          <a href="index.html">Healthy Fruits<span></span></a>
+        </div>
+        <ul class="nav-items" id="nav-items">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="healthbenefit.html">Health Benefits</a></li>
+          <li><a href="bmi.html">BMI</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li class="admin-only" style="display:none;"><a href="add-fruit.html">Add Fruit</a></li>
+          <li class="admin-only" style="display:none;"><a href="view-messages.html">View Messages</a></li>
+          <li id="login-link"><a href="login.html">Admin Login</a></li>
+          <li id="logout-link" style="display:none;"><a href="#" onclick="logout()">Logout</a></li>
+        </ul>
+    </nav>
+   
+
+    
+    <!-- Hero Section -->
+    <div id="hero">
+      <img src="img/mixedfruits.png" class="hero-img fade-img delay-1" alt="mixedfruits Image">
+      <img src="img/mixedfruits1.png" class="hero-img fade-img delay-2" alt="mixedfruits1 Image">
+      <img src="img/mixedfruits2.png" class="hero-img fade-img delay-3" alt="mixedfruits2 Image">
+      <h1>Discover the Health Benefits of Fresh Fruits for Your Well-being</h1>
+      <p>Boost Your Immune System and Improve Overall Health with 100% Natural, Raw, and Fresh Fruits</p>
+      <div class="button">
+        <div class="btn">
+          <a href="healthbenefit.html">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Featured Fruits Section -->
+  <div class="featured-fruits">
+    <div class="section-wrap">
+      <div class="sub-section-title">
+        <p>Health Benefits of Fruits</p>
+      </div>
+      <div class="fruits" id="fruits-container">
+        <!-- Fruits will be dynamically added here -->
+      </div>
+    </div>
+  </div>
+  <script>
+  const token = localStorage.getItem('adminToken');
+if (token) {
+  document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'inline-block');
+  document.getElementById('login-link').style.display = 'none';
+  document.getElementById('logout-link').style.display = 'inline-block';
+}
+
+function logout() {
+  localStorage.removeItem('adminToken');
+  location.reload();
+}
+</script>
+<script>
+  // Fetch fruits from the backend and display them in the fruits section
+  fetch('http://localhost:5000/api/fruits')
+    .then(response => response.json())
+    .then(fruits => {
+      const fruitsContainer = document.getElementById('fruits-container');
+      fruitsContainer.innerHTML = ''; // Clear previous fruits
+
+      fruits.forEach(fruit => {
+        const fruitDiv = document.createElement('div');
+        fruitDiv.classList.add('fruit');
+        
+        fruitDiv.innerHTML = `
+          <div class="fruit-img">
+            <img src="img/${fruit.name.toLowerCase()}.jpg" alt="${fruit.name} Image">
+          </div>
+          <div class="fruit-text">
+            <h2>${fruit.name}</h2>
+            <p>${fruit.description}</p>
+          </div>`
+        ;
+        
+        fruitsContainer.appendChild(fruitDiv);
+      });
+    })
+    .catch(err => console.error('Error fetching fruits:', err));
+ </script>
+</body>
+</html>

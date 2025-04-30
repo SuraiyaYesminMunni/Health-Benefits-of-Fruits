@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html">Healthy Fruits<span>.</span></a>
+    </div>
+    <ul class="nav-items">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="healthbenefit.html">Health Benefits</a></li>
+      <li><a href="bmi.html">BMI</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="contact-section" id="contact">
+    <h1>Contact Us</h1>
+    <form class="contact-form">
+      <div class="input-area">
+        <label for="fname">First Name</label>
+        <input type="text" id="fname" name="firstname" placeholder="Your name..">
+      </div>
+      <div class="input-area">
+        <label for="lname">Last Name</label>
+        <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+      </div>
+      <div class="input-area">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Your email..">
+      </div>
+      <div class="message-area">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Write something.."></textarea>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    // Handle contact form submission
+    document.querySelector('.contact-form').addEventListener('submit', function (e) {
+      e.preventDefault(); // Prevent default form submission
+
+      const fname = document.getElementById('fname').value;
+      const lname = document.getElementById('lname').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      const contactData = { firstName: fname, lastName: lname, email, message };
+
+      // POST the contact data to the server
+      fetch('http://localhost:5000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(contactData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Contact message sent successfully!');
+        document.querySelector('.contact-form').reset(); // Clear form
+      })
+      .catch(err => console.error('Error submitting contact form:', err));
+    });
+  </script>
+</body>
+</html>
